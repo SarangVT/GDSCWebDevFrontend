@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/GDSCWebDevFrontend/static/css/main.f2ae60c6.css",
+    "main.js": "/GDSCWebDevFrontend/static/js/main.58fe6865.js",
+    "index.html": "/GDSCWebDevFrontend/index.html",
+    "main.f2ae60c6.css.map": "/GDSCWebDevFrontend/static/css/main.f2ae60c6.css.map",
+    "main.58fe6865.js.map": "/GDSCWebDevFrontend/static/js/main.58fe6865.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f2ae60c6.css",
+    "static/js/main.58fe6865.js"
+  ]
+}
