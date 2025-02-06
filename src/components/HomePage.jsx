@@ -7,7 +7,10 @@ import backendUrl from "../helpers/serverlink";
 
 const HomePage = () => {
     const {userName, setUserName, email, setEmail, name, setName} = useUserData();
+    const [run, setRun] = useState(true);
+    const handleRun = () => setRun(false);
     useEffect(()=>{
+        if(!setRun) return;
         const fetchData = async ()=> {
             try{
                 const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
@@ -38,7 +41,7 @@ const HomePage = () => {
 
     return(
         <div className="flex flex-col">
-            <div className="w-screen"><NavBar/></div>
+            <div className="w-screen"><NavBar handleRun={handleRun}/></div>
                 <div className="flex justify-center">
                     <div className="text-white from-[#FBA518] to-[#FFE31A] bg-gradient-to-r w-[70vw] font-bold text-[18px] p-3 m-4 text-left rounded-md">Trending Blogs</div>
                 </div>

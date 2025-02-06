@@ -5,12 +5,12 @@ import axios from "axios";
 import { FaBars } from "react-icons/fa";
 import backendUrl from "../helpers/serverlink";
 
-const NavBar = () => {
+const NavBar = (props) => {
     const { userName, setUserName, email, setEmail, name, setName } = useUserData();
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
+    const [run, setRun] = useState(true);
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -34,6 +34,7 @@ const NavBar = () => {
                         setEmail(null);
                         setName(null);
                     }
+                    props.handleRun();
                 } catch (error) {
                     setUserName(null);
                     setEmail(null);
