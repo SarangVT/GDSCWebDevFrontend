@@ -4,6 +4,7 @@ import axios from "axios";
 import { useUserData } from "../Context/userData";
 
 const LoginPage = () => {
+    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName} = useUserData();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
