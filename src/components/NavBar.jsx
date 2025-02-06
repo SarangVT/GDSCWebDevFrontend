@@ -28,7 +28,6 @@ const NavBar = () => {
         <div className="flex flex-row gap-12 from-[#8B5DFF] to-[#642AB6] bg-gradient-to-r text-white font-bold p-3 pl-6 items-center">
             <div className="cursor-pointer" onClick={()=>{navigate('/')}}>Home</div>
             {userName && (<>
-                <div className="cursor-pointer" onClick={()=>{navigate('/profile')}}>Profile</div>
                 <div className="cursor-pointer" onClick={()=>{navigate('/createBlog')}}>Create New Blog</div>
                 </>
             )}
@@ -38,7 +37,7 @@ const NavBar = () => {
             <div className="cursor-pointer" onClick={()=>{navigate('/signup')}}>Sign Up</div>
             <div className="cursor-pointer" onClick={()=>{navigate('/login')}}>Login</div>
             </> ) : <>
-            <div className="cursor-pointer">{name}</div>
+            <div className="cursor-pointer" onClick={()=>{navigate('/profile')}}>{name}</div>
             <div className="cursor-pointer" onClick={LogOut}>Log Out</div>
             </>
             }
