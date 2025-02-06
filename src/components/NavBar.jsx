@@ -4,11 +4,12 @@ import { useUserData } from "../Context/userData";
 import axios from "axios";
 
 const NavBar = () => {
+    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName, email, setEmail, name, setName} = useUserData();
     useEffect(()=>{
         const fetchData = async ()=> {
             try{
-                const cookieData = await axios.get("http://localhost:8000/cookie",{withCredentials:true});
+                const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
                 setUserName(cookieData.data.username);
                 setEmail(cookieData.data.email);
                 setName(cookieData.data.name);

@@ -18,7 +18,7 @@ const LoginPage = () => {
     useEffect(()=>{
         const fetchData = async ()=> {
             try{
-                const cookieData = await axios.get("http://localhost:8000/cookie",{withCredentials:true});
+                const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
                 setUserName(cookieData.data.username);
                 navigate('/');
             } catch{
@@ -40,7 +40,7 @@ const LoginPage = () => {
         e.preventDefault();
         
         try{
-            const response = await axios.post("http://localhost:8000/user/login",userData,{withCredentials:true});
+            const response = await axios.post(`${backendUrl}0/user/login`,userData,{withCredentials:true});
             setUserName(response.data.userName);
             navigate('/');
         }

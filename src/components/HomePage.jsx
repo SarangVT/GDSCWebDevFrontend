@@ -5,10 +5,25 @@ import { useUserData } from "../Context/userData";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+    const backendUrl = "https://gdscwebdevbackend.onrender.com";
+    const {userName, setUserName, email, setEmail, name, setName} = useUserData();
+    useEffect(()=>{
+        const fetchData = async ()=> {
+            try{
+                const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
+                setUserName(cookieData.data.username);
+                setEmail(cookieData.data.email);
+                setName(cookieData.data.name);
+            } catch{
+                
+            }
+        }
+        fetchData();
+    },[setUserName, setEmail, setName]);
     const [blogs, setBlogs] = useState([]);      
     const fetchBlogs = async (page) => {
         try {
-            const response = await axios.get(`http://localhost:8000/blogs`);
+            const response = await axios.get(`${backendUrl}/blogs`);
             setBlogs(response.data);
         } catch (error) {
             console.error('Error fetching blogs:', error);

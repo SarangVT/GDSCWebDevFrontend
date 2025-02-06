@@ -3,17 +3,49 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { useUserData } from "../Context/userData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "./NavBar";
 
-const CreateBlogPage = () => {
-  const backendUrl = "https://gdscwebdevbackend.onrender.com";
-  const navigate = useNavigate();
-  const {userName, setUserName, email} = useUserData();
+const EditBlogPage = () => {
+    const backendUrl = "https://gdscwebdevbackend.onrender.com";
+    const {userName, setUserName, email, setEmail, name, setName} = useUserData();
+    const navigate = useNavigate();
+    const [blogs, setBlogs] = useState([]);
+    useEffect(()=>{
+        const fetchData = async ()=> {
+            try{
+                const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
+                setUserName(cookieData.data.username);
+                setEmail(cookieData.data.email);
+                setName(cookieData.data.name);
+            } catch{
+                navigate('/');
+            }
+        }
+        fetchData();
+    },[setUserName, setEmail, setName]);
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
   const [bgColor, setBgColor] = useState("#FFFFFF");
   const [description, setDescription]= useState("");
+
+  const [searchParams] = useSearchParams();
+  const blogId = searchParams.get("id");
+  useEffect(()=>{
+    const fetchBlogDetails = async ()=> {
+        try{
+        const response = await axios.get(`${backendUrl}/editblogInfo`,{params:{ id:blogId}});
+        const blog = response.data;
+        if(blog.author!=userName) {navigate('/');}
+        setEditorContent(blog.content);
+        setTitle(blog.title);
+        setBgColor(blog.bgColor);
+        setDescription(blog.description);
+        } catch{
+        }
+      }
+      fetchBlogDetails();
+  },[]);
 
   const handleEditorChange = (value) => {
     setEditorContent(value);
@@ -31,9 +63,9 @@ const CreateBlogPage = () => {
     setEditorContent(updatedContent);
   };
 
-  const handlePublish = async () => {
+  const handleSave = async () => {
     try {
-      const response = await axios.post(`${backendUrl}/user/blog`, {
+      const response = await axios.put(`${backendUrl}/blog/edit?id=${encodeURIComponent(blogId)}`, {
         content: editorContent,
         title: title,
         description: description,
@@ -103,10 +135,10 @@ const CreateBlogPage = () => {
         <div className="font-bold">Background Color</div>
         <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-8 h-8 rounded-full border-none cursor-pointer p-0"/>
         <input type="text" value={bgColor} onChange={handleInputColorChange} maxLength={7} className="border p-2 rounded-lg text-lg font-mono w-28 text-center outline-none"/>
-        <button className={"text-white bg-[#16C47F] p-4 rounded-lg flex items-center font-bold w-[200px] justify-center"} onClick={handlePublish}>Publish Blog</button>
+        <button className={"text-white bg-[#16C47F] p-4 rounded-lg flex items-center font-bold w-[200px] justify-center"} onClick={handleSave}>Save Blog</button>
       </div>
     </div>
   );
 };
 
-export default CreateBlogPage;
+export default EditBlogPage;

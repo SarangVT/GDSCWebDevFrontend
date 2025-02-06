@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
+    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
         name:"",
@@ -29,7 +30,7 @@ const SignUpPage = () => {
         }
         else {
             try{
-                const response = await axios.post("http://localhost:8000/user/signup",userData,{withCredentials:true,});
+                const response = await axios.post(`${backendUrl}/user/signup`,userData,{withCredentials:true,});
                 navigate('/login');
             }
             catch(error){

@@ -6,6 +6,7 @@ import LoginPage from "./components/LoginPage";
 import ProfilePage from "./components/ProfilePage";
 import CreateBlogPage from "./components/CreateBlogPage";
 import BlogDisplayPage from "./components/BlogDisplayPage";
+import EditBlogPage from "./components/EditBlogPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/createBlog" element={<CreateBlogPage/>}/>
           <Route path="/blog" element={<BlogDisplayPage/>}/>
+          <Route path="/blog/edit" element={<EditBlogPage/>}/>
         </Routes>
     </div>
   );
