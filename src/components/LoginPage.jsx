@@ -23,7 +23,6 @@ const LoginPage = () => {
                 setUserName(cookieData.data.username);
                 navigate('/');
             } catch{
-                console.log(5);
             }
         }
         fetchData();

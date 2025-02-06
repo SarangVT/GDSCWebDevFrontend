@@ -44,7 +44,7 @@ const SignUpPage = () => {
             <div className="mt-14 text-4xl font-extrabold text-center text-purple-500  mb-6 font-serif">Register to BlogX Now!!!</div>
 
             <div className={`bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg ${alert ? "" : "opacity-0"}`} role="alert">
-                <strong className="font-bold">Complete All Credentials!</strong>
+                <strong className="font-bold">Complete All Credentials, Don't Use Used Email and Username!</strong>
             </div>
 
             <div className="flex flex-row mt-[30px]">
