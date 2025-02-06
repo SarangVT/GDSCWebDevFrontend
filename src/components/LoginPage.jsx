@@ -23,7 +23,7 @@ const LoginPage = () => {
                 setUserName(cookieData.data.username);
                 navigate('/');
             } catch{
-                
+                console.log(5);
             }
         }
         fetchData();
@@ -41,7 +41,7 @@ const LoginPage = () => {
         e.preventDefault();
         
         try{
-            const response = await axios.post(`${backendUrl}0/user/login`,userData,{withCredentials:true});
+            const response = await axios.post(`${backendUrl}/user/login`,userData,{withCredentials:true});
             setUserName(response.data.userName);
             navigate('/');
         }
