@@ -21,7 +21,7 @@ const NavBar = () => {
     },[setUserName, setEmail, setName]);
     const navigate = useNavigate();
     const LogOut = async () => {
-        await axios.post("http://localhost:8000/user/logout",{},{withCredentials:true});
+        await axios.post(`${backendUrl}/user/logout`,{},{withCredentials:true});
         setUserName(null);
     }
     return (
