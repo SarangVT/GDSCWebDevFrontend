@@ -19,24 +19,32 @@ const NavBar = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const cookieData = await axios.get(`${backendUrl}/cookie`, { withCredentials: true });
-                setUserName(cookieData.data.username);
-                setEmail(cookieData.data.email);
-                setName(cookieData.data.name);
-            } catch {
-            }
-        };
-        fetchData();
-    }, [setUserName, setEmail, setName]);
-
     const LogOut = async () => {
-        await axios.post(`${backendUrl}/user/logout`, {}, { withCredentials: true });
-        setUserName(null);
+        try {
+            await axios.post(`${backendUrl}/user/logout`, {}, { withCredentials: true });
+            setUserName(null);
+            setEmail(null);
+            setName(null);
+    
+            setTimeout(async () => {
+                try {
+                    const cookieData = await axios.get(`${backendUrl}/cookie`, { withCredentials: true });
+                    if (!cookieData.data.username) {
+                        setUserName(null);
+                        setEmail(null);
+                        setName(null);
+                    }
+                } catch (error) {
+                    setUserName(null);
+                    setEmail(null);
+                    setName(null);
+                }
+            }, 500);
+    
+        } catch (error) {
+        }
     };
-
+    
     return (
         <>
         {isMobile ? (
@@ -44,9 +52,15 @@ const NavBar = () => {
         <div className="cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
             <FaBars size={28} />
         </div>
-        <div className="flex items-center gap-4">
-            {userName && <div className="cursor-pointer">{name}</div>}
+        <div className="flex flex-row justify-end gap-4">
+        {userName ? (<div className="flex items-center gap-4">
+            {userName && <div className="cursor-pointer" onClick={() => { navigate('/profile')}}>{name}</div>}
             {userName && <div className="cursor-pointer" onClick={LogOut}>Log Out</div>}
+        </div>) : (<>
+            {<div className="cursor-pointer" onClick={() => { navigate('/signup')}}>Sign Up</div>}
+            {<div className="cursor-pointer" onClick={() => { navigate('/login')}}>Login</div>}
+            </>
+        )}
         </div>
         {menuOpen && (
             <div className="absolute top-14 left-0 w-full bg-[#642AB6] shadow-md opacity-90 z-10">
@@ -61,6 +75,7 @@ const NavBar = () => {
             </div>
         )}
     </nav>
+    //Desktop Starts
     ) : (
         <div className="flex flex-row gap-12 from-[#8B5DFF] to-[#642AB6] bg-gradient-to-r text-white font-bold p-3 pl-6 items-center">
             <div className="cursor-pointer" onClick={()=>{navigate('/')}}>Home</div>

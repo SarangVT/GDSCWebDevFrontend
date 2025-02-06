@@ -7,94 +7,79 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import backendUrl from "../helpers/serverlink";
 
 const ProfilePage = () => {
-    const {userName, setUserName, email, setEmail, name, setName} = useUserData();
+    const { userName, setUserName, email, setEmail, name, setName } = useUserData();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
-    useEffect(()=>{
-        const fetchData = async ()=> {
-            try{
-                const cookieData = await axios.get(`${backendUrl}/cookie`,{withCredentials:true});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const cookieData = await axios.get(`${backendUrl}/cookie`, { withCredentials: true });
                 setUserName(cookieData.data.username);
                 setEmail(cookieData.data.email);
                 setName(cookieData.data.name);
-            } catch{
+            } catch {
                 navigate('/');
             }
-        }
+        };
         fetchData();
-    },[setUserName, setEmail, setName]);
+    }, [setUserName, setEmail, setName, navigate]);
 
-    useEffect(()=>{
-        const fetchBlogs = async() => {
-            try{
-            const response = await axios.get(`${backendUrl}/author/blogs`,{params: {author:userName}});
-            setBlogs(response.data);
-            } catch{
-
-            }
-        }
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await axios.get(`${backendUrl}/author/blogs`, { params: { author: userName } });
+                setBlogs(response.data);
+            } catch { }
+        };
         fetchBlogs();
-    },[]);
+    }, [userName]);
 
-    const onDelete = async(id)=> {
-        const userConfirmation = window.confirm("Are you sure to delete this blog, this action cannot be undone!");
-        if(!userConfirmation) return;
-        try{
+    const onDelete = async (id) => {
+        const userConfirmation = window.confirm("Are you sure to delete this blog? This action cannot be undone!");
+        if (!userConfirmation) return;
+        try {
             await axios.delete(`${backendUrl}/blog/delete?id=${id}`);
-            const updatedBlogs = blogs.filter(blog => blog._id !== id);
-            setBlogs(updatedBlogs);
-        } catch{
-        }
-    }
+            setBlogs(blogs.filter(blog => blog._id !== id));
+        } catch { }
+    };
 
     return (
-        <div className="flex flex-row">
-            <div className="flex flex-col">
-                <div className="w-screen"><NavBar/></div>
-                <div className="text-[32px] font-bold p-2 flex justify-center text-[#16C47F]">Personal Info</div>
-                
-
-                <div className="flex justify-center p-2">
-                    <div className="w-[71vw] flex justify-center flex-col p-4">
-                        
-                    <div className="flex flex-row justify-start gap-12 font-bold p-10 pl-2 text-[20px]">
-                    <div className="flex flex-col">
-                        <div className="">Name: </div>
-                        <div className="">E-mail: </div>
-                        <div className="">Username: </div>
-                        <div className="">Total Blogs Published: </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <div className="">{name}</div>
-                        <div className="">{email}</div>
-                        <div className="">{userName}</div>
-                        <div className="">{blogs.length}</div>
-                    </div>
+        <div className="flex flex-col items-center min-h-screen w-full">
+            <div className="w-full"><NavBar /></div>
+            <div className="text-3xl md:text-4xl font-bold p-4 text-[#16C47F] text-center">Personal Info</div>
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-lg font-bold">
+                    <div className="flex flex-col"><span>Name:</span><span className="break-words">{name}</span></div>
+                    <div className="flex flex-col"><span>Email:</span><span className="break-words">{email}</span></div>
+                    <div className="flex flex-col"><span>Username:</span><span className="break-words">{userName}</span></div>
+                    <div className="flex flex-col"><span>Total Blogs Published:</span><span className="break-words">{blogs.length}</span></div>
                 </div>
-                
-                <div className="text-[32px] font-bold p-2 flex justify-center text-[#FBA518]">Your Creations</div>
-
-                    {blogs.reverse().map((blog, index) => (
-                    <div key={index} style={{backgroundColor:blog.bgColor}} 
-                    className={`${(blog.bgColor=="#ffffff" || blog.bgColor=="#FFFFFF") ? "text-black" : "text-white"} p-4 mt-3 rounded-lg shadow-xl shadow-gray-400 cursor-pointer border-2 border-gray-200`}
-                    onClick={()=>navigate(`/blog?author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.createdAt)}`)}>
-                    <div className="flex flex-row justify-between">
-                        <div className="text-xl font-bold mb-2">{blog.title}</div>
-                        <div className="flex flex-row gap-4">
-                            <div className="font-bold flex flex-row gap-2" onClick={(e)=>{e.stopPropagation();navigate(`/blog/edit?id=${encodeURIComponent(blog._id)}`);}}><FaEdit color="#0A5EB0" size={24} />Edit</div>
-                            <div className="font-bold flex flex-row gap-2" onClick={(e)=>{e.stopPropagation();onDelete(blog._id);}}><FaTrash color="#F95454" size={20} />Delete</div>
+            </div><br/><br/>
+            <div className="text-3xl md:text-4xl font-bold p-4 text-[#FBA518] text-center">Your Creations</div><br/>
+            <div className="w-full max-w-3xl flex flex-col gap-4">
+                {blogs.slice().reverse().map((blog, index) => (
+                    <div key={index} style={{ backgroundColor: blog.bgColor }}
+                        className={`${(blog.bgColor === "#ffffff" || blog.bgColor === "#FFFFFF") ? "text-black" : "text-white"} p-4 rounded-lg shadow-lg cursor-pointer border border-gray-200`}
+                        onClick={() => navigate(`/blog?author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.createdAt)}`)}>
+                        <div className="flex justify-between items-start">
+                            <div className="text-xl font-bold">{blog.title}</div>
+                            <div className="flex flex-col gap-2 md:gap-4 items-end">
+                                <button className="flex items-center gap-2 text-blue-600 font-bold" onClick={(e) => { e.stopPropagation(); navigate(`/blog/edit?id=${encodeURIComponent(blog._id)}`); }}>
+                                    <FaEdit size={20} /> Edit
+                                </button>
+                                <button className="flex items-center gap-2 text-red-600 font-bold" onClick={(e) => { e.stopPropagation(); onDelete(blog._id); }}>
+                                    <FaTrash size={18} /> Delete
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="font-semibold">{blog.description}</div>
-                    <div className="justify-self-end font-semibold">~ {blog.author}</div>
+                        <div className="font-semibold mt-2">{blog.description}</div>
+                        <div className="text-right font-semibold">~ {blog.author}</div>
                     </div>
                 ))}
-                </div>
-                </div>
             </div>
         </div>
     );
-
-}
+};
 
 export default ProfilePage;

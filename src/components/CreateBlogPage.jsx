@@ -99,7 +99,7 @@ const CreateBlogPage = () => {
         ]}
       />
       </div>
-      <div className="flex flex-row gap-3 justify-end mr-[5vw] h-[40px] text-[18px] m-6 mt-20">
+      <div className="flex flex-row gap-3 justify-end mr-[5vw] h-[40px] text-[18px] m-6 md:mt-20 mt-40">
         <div className="font-bold">Background Color</div>
         <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-8 h-8 rounded-full border-none cursor-pointer p-0"/>
         <input type="text" value={bgColor} onChange={handleInputColorChange} maxLength={7} className="border p-2 rounded-lg text-lg font-mono w-28 text-center outline-none"/>

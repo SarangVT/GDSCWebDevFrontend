@@ -1,71 +1,79 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import backendUrl from "../helpers/serverlink";
 
 const SignUpPage = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
-        name:"",
-        username:"",
-        email:"",
-        password:"",
+        name: "",
+        username: "",
+        email: "",
+        password: "",
     });
     const [alert, setAlert] = useState(false);
-    const handleChange = (e)=>{
-        setUserData({...userData,[e.target.name]:e.target.value});
-    }
 
     useEffect(() => {
-            const timer = setTimeout(() => {
+        const timer = setTimeout(() => {
             setAlert(false);
-            }, 2500);
-            return () => clearTimeout(timer);
-        }, [alert, setAlert]);
+        }, 2500);
+        return () => clearTimeout(timer);
+    }, [alert]);
 
-    const handleSubmit = async(e)=>{
+    const handleChange = (e) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(userData.email==null || userData.name==null || userData.password==null || userData.username==null){
+        if (!userData.email || !userData.name || !userData.password || !userData.username) {
             setAlert(true);
-        }
-        else {
-            try{
-                const response = await axios.post(`${backendUrl}/user/signup`,userData,{withCredentials:true,});
+        } else {
+            try {
+                await axios.post(`${backendUrl}/user/signup`, userData, { withCredentials: true });
                 navigate('/login');
-            }
-            catch(error){
+            } catch (error) {
                 setAlert(true);
             }
         }
-    }
- 
+    };
+
     return (
-        <div className="flex flex-col justify-center items-center">
-            <div className="mt-14 text-4xl font-extrabold text-center text-purple-500  mb-6 font-serif">Register to BlogX Now!!!</div>
-
-            <div className={`bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg ${alert ? "" : "opacity-0"}`} role="alert">
-                <strong className="font-bold">Complete All Credentials, Don't Use Used Email and Username!</strong>
+        <div className="flex flex-col justify-center items-center min-h-screen px-4">
+            <div className="mt-10 text-3xl md:text-4xl font-extrabold text-center text-purple-500 mb-6 font-serif">
+                Register to BlogX Now!!!
             </div>
 
-            <div className="flex flex-row mt-[30px]">
-                <div className="flex flex-col mr-2 gap-6 font-serif font-bold text-[18px]">
-                    <span className="p-2">Name: </span>
-                    <span className="p-2">Username: </span>
-                    <span className="p-2">Email: </span>
-                    <span className="p-2">Password: </span>
+            {alert && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-center w-full max-w-sm">
+                    <strong className="font-bold">Complete All Credentials, Don't Use Used Email and Username!</strong>
                 </div>
-                <div className="flex flex-col gap-6">
-                    <input required onChange={handleChange} name="name" value={userData.name} type="text" placeholder="Enter Your Name" className={"shadow-xl shadow-gray-300 focus:outline-none p-2 pl-5 min-w-[300px] max-w-[400px] rounded-lg border-2 focus:border-violet-400"}/>
-                    <input required onChange={handleChange} name="username" value={userData.username} type="text" placeholder="Choose a Nice Pen Name" className={"shadow-xl shadow-gray-300 focus:outline-none p-2 pl-5 max-w-[400px] rounded-lg border-2 focus:border-violet-400"}/>
-                    <input required onChange={handleChange} name="email" value={userData.email} type="text" placeholder="Enter Your Email" className={"shadow-xl shadow-gray-300 focus:outline-none p-2 pl-5 max-w-[400px] rounded-lg border-2 focus:border-violet-400"}/>
-                    <input required onChange={handleChange} name="password" value={userData.password} type="password" placeholder="Enter a Strong Password" className={"shadow-xl shadow-gray-300 focus:outline-none p-2 pl-5 max-w-[400px] rounded-lg border-2 focus:border-violet-400"}/>
+            )}
+
+            <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white p-6 rounded-lg shadow-lg">
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2">Name</label>
+                    <input required onChange={handleChange} name="name" value={userData.name} type="text" placeholder="Enter Your Name" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-violet-400" />
                 </div>
-            </div>
-            <div className="flex flex-row gap-40 text-white mt-16 font-bold">
-                <button className="bg-red-500 h-[42px] p-2 pl-8 pr-8 rounded-lg"onClick={()=>setUserData({"name":"", username:"",email:"",password:""})}>Reset</button>
-                <button className="bg-green-600 h-[42px] p-2 pl-8 pr-8 rounded-lg" onClick={handleSubmit}>Register</button></div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2">Username</label>
+                    <input required onChange={handleChange} name="username" value={userData.username} type="text" placeholder="Choose a Nice Pen Name" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-violet-400" />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2">Email</label>
+                    <input required onChange={handleChange} name="email" value={userData.email} type="text" placeholder="Enter Your Email" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-violet-400" />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2">Password</label>
+                    <input required onChange={handleChange} name="password" value={userData.password} type="password" placeholder="Enter a Strong Password" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-violet-400" />
+                </div>
+                <div className="flex justify-between items-center mt-6">
+                    <button type="button" className="bg-red-500 text-white py-2 px-6 rounded-lg" onClick={() => setUserData({ name: "", username: "", email: "", password: "" })}>Reset</button>
+                    <button type="submit" className="bg-green-600 text-white py-2 px-6 rounded-lg">Register</button>
+                </div>
+            </form>
         </div>
     );
-}
+};
 
 export default SignUpPage;
