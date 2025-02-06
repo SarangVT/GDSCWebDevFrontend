@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import { useUserData } from "../Context/userData";
+import backendUrl from "../helpers/serverlink";
 
 const LoginPage = () => {
-    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName} = useUserData();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
@@ -38,7 +38,6 @@ const LoginPage = () => {
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
-        
         try{
             const response = await axios.post(`${backendUrl}/user/login`,userData,{withCredentials:true});
             setUserName(response.data.userName);

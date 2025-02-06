@@ -4,9 +4,9 @@ import { useUserData } from "../Context/userData";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import backendUrl from "../helpers/serverlink";
 
 const ProfilePage = () => {
-    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName, email, setEmail, name, setName} = useUserData();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);

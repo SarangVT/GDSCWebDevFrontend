@@ -6,7 +6,7 @@ import CreateComment from "./CreateComment";
 import DisplayComment from "./DisplayComment";
 import { useUserData } from "../Context/userData";
 import { formatedDateAndTime } from "../helpers/formatDate";
-const backendUrl = "https://gdscwebdevbackend.onrender.com";
+import backendUrl from "../helpers/serverlink";
 const BlogDisplayPage = () => {
   const {userName, setUserName} = useUserData();
   useEffect(()=>{

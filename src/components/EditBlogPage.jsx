@@ -5,9 +5,9 @@ import axios from "axios";
 import { useUserData } from "../Context/userData";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "./NavBar";
+import backendUrl from "../helpers/serverlink";
 
 const EditBlogPage = () => {
-    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName, email, setEmail, name, setName} = useUserData();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);

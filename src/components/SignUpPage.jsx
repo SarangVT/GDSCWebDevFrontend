@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import backendUrl from "../helpers/serverlink";
 
 const SignUpPage = () => {
-    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
         name:"",

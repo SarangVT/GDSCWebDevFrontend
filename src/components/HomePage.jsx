@@ -3,9 +3,9 @@ import NavBar from "./NavBar";
 import axios from "axios";
 import { useUserData } from "../Context/userData";
 import { useNavigate } from "react-router-dom";
+import backendUrl from "../helpers/serverlink";
 
 const HomePage = () => {
-    const backendUrl = "https://gdscwebdevbackend.onrender.com";
     const {userName, setUserName, email, setEmail, name, setName} = useUserData();
     useEffect(()=>{
         const fetchData = async ()=> {
@@ -40,7 +40,7 @@ const HomePage = () => {
         <div className="flex flex-col">
             <div className="w-screen"><NavBar/></div>
                 <div className="flex justify-center">
-                    <div className="text-white from-[#FBA518] to-[#FFE31A] bg-gradient-to-r w-[70vw] font-bold text-[17px] p-3 m-4 text-left rounded-md">Trending Blogs</div>
+                    <div className="text-white from-[#FBA518] to-[#FFE31A] bg-gradient-to-r w-[70vw] font-bold text-[18px] p-3 m-4 text-left rounded-md">Trending Blogs</div>
                 </div>
                 <div className="flex justify-center p-2">
                     <div className="w-[71vw] flex justify-center flex-col p-4">
