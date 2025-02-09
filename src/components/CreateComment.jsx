@@ -9,6 +9,7 @@ const CreateComment = (props) => {
                 onFocus={()=>setInputFocus(true)}
                 value={props.userInput}
                 onChange={props.handleChange}
+                required
                 /><br/><br/>
                 {inputFocus && <button className="border-gray-500 bg-gray-400 text-white py-2 px-4 rounded-lg font-bold" onClick={props.saveComment}>Publish</button>}
         </div>

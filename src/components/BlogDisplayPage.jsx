@@ -41,6 +41,9 @@ const BlogDisplayPage = () => {
 
     const onComment = async ()=> {
       const DateStr = formatedDateAndTime(new Date());
+      if(!id || !userName || !newComment){
+        return;
+      }
       try{
         axios.post(`${backendUrl}/blog/comment`,{
             id:id,
